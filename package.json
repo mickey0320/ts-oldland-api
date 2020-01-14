@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch src/** --exec 'ts-node src/app.ts'",
+    "dev": "nodemon --exec 'ts-node app.ts'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/koa": "^2.11.0",
+    "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.4.0",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
@@ -26,6 +27,7 @@
   },
   "dependencies": {
     "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
     "koa-combine-routers": "^4.0.2",
     "koa-router": "^7.4.0"
   }
