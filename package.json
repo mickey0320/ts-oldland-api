@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/basic-auth": "^1.1.2",
     "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^8.3.6",
     "@types/koa": "^2.11.0",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.4.0",
@@ -27,7 +29,9 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
+    "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
     "koa-combine-routers": "^4.0.2",
