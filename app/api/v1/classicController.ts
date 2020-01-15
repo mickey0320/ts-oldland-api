@@ -1,13 +1,13 @@
 import { Context } from 'koa'
 
 import { ParameterException } from '../../../core/httpException'
+import User from '../../models/user'
 
 class ClassicController {
   public async getLatest(ctx: Context) {
-    // ctx.body = {
-    //   message: 'getLatest'
-    // }
-    throw new ParameterException('参数错误')
+    ctx.body = {
+      message: 'getLatest'
+    }
   }
 }
 

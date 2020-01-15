@@ -26,5 +26,11 @@ class ParameterException extends HttpBaseException {
   }
 }
 
+class Success extends HttpBaseException {
+  public constructor() {
+    super('ok', 0, 201)
+  }
+}
+
 export default HttpBaseException
-export { ParameterException }
+export { ParameterException, Success }
