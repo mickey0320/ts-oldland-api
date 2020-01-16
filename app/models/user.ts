@@ -1,6 +1,7 @@
 import { Sequelize, Model, DataTypes } from 'sequelize'
+import bcrypt from 'bcryptjs'
 
-import { sequelize } from '../../core/db'
+import sequelize from '../../core/db'
 
 class User extends Model {
   public static getUserByOpenId(openid: string) {
@@ -31,7 +32,13 @@ User.init(
       type: DataTypes.STRING
     },
     password: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      set(val: string) {
+        const salt = bcrypt.genSaltSync(10)
+        const hashPwd = bcrypt.hashSync(val, salt)
+        // @ts-ignore
+        this.setDataValue('password', hashPwd)
+      }
     },
     openid: {
       type: DataTypes.STRING(64),
