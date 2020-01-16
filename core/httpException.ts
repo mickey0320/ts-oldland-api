@@ -32,5 +32,23 @@ class Success extends HttpBaseException {
   }
 }
 
+class NotFound extends HttpBaseException {
+  public constructor(message = '资源未找到', errorCode = 10002) {
+    super(message, errorCode, 404)
+  }
+}
+
+class AuthFail extends HttpBaseException {
+  public constructor(message = '授权失败', errorCode = 10004) {
+    super(message, errorCode, 401)
+  }
+}
+
+class Forbidden extends HttpBaseException {
+  public constructor(message = '禁止访问', errorCode = 10006) {
+    super(message, errorCode, 403)
+  }
+}
+
 export default HttpBaseException
-export { ParameterException, Success }
+export { ParameterException, Success, NotFound, AuthFail, Forbidden }
