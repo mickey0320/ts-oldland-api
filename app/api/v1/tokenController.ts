@@ -21,7 +21,8 @@ class TokenController {
   private async verfifyEmailAndSecret(account: string, secret: string) {
     const user = await User.verifyEmailAndSecret(account, secret)
 
-    return generateToken(user.id)
+    // 这个地方的 2 应该去数据库查询来确定具体的用户权限
+    return generateToken(user.id, 2)
   }
 }
 

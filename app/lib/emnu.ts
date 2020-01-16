@@ -4,4 +4,9 @@ enum LoginType {
   MobilePhone
 }
 
-export { LoginType }
+enum UserLevel {
+  User = 2,
+  Admin = 4
+}
+
+export { LoginType, UserLevel }
