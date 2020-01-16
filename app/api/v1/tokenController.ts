@@ -1,8 +1,8 @@
 import { Context } from 'koa'
 
 import { LoginType } from '../../lib/emnu'
-import { generateToken } from '../../../core/util'
-import User from '../../models/user'
+import userService from '../../../app/services/user'
+import wxService from '../../services/wx'
 
 class TokenController {
   public verify = async (ctx: Context) => {
@@ -11,18 +11,15 @@ class TokenController {
     let token = ''
     switch (loginType) {
       case LoginType.Email:
-        token = await this.verfifyEmailAndSecret(account, secret)
+        token = await userService.generateTokenByEmail(account, secret)
+        break
+      case LoginType.MiniProgram:
+        token = await wxService.codeToToken(account)
         break
     }
     ctx.body = {
       token
     }
-  }
-  private async verfifyEmailAndSecret(account: string, secret: string) {
-    const user = await User.verifyEmailAndSecret(account, secret)
-
-    // 这个地方的 2 应该去数据库查询来确定具体的用户权限
-    return generateToken(user.id, 2)
   }
 }
 

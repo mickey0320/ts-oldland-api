@@ -5,7 +5,7 @@ import { sequelize } from '../../core/db'
 
 class User extends Model {
   public static async verifyEmailAndSecret(email: string, secret: string) {
-    const user = await this.findOne({
+    const user = await User.findOne({
       where: {
         email
       }
@@ -19,6 +19,18 @@ class User extends Model {
     }
 
     return user
+  }
+  public static getUserByOpenId(openid: string) {
+    return User.findOne({
+      where: {
+        openid
+      }
+    })
+  }
+  public static async createUserByOpenId(openid: string) {
+    return User.create({
+      openid
+    })
   }
 }
 
