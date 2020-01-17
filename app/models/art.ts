@@ -12,13 +12,13 @@ class Art {
     }
     switch (type) {
       case ClassicType.Movie:
-        classic = await Movie.findOne(condition)
+        classic = await Movie.scope('dh').findOne(condition)
         break
       case ClassicType.Music:
-        classic = await Music.findOne(condition)
+        classic = await Music.scope('dh').findOne(condition)
         break
       case ClassicType.Sentence:
-        classic = await Sentence.findOne(condition)
+        classic = await Sentence.scope('dh').findOne(condition)
         break
     }
     return classic
