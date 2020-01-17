@@ -16,6 +16,10 @@ class User extends Model {
       openid
     })
   }
+  public id!: number
+  public nickname!: string
+  public email!: string
+  public password!: string
 }
 
 User.init(
@@ -33,10 +37,9 @@ User.init(
     },
     password: {
       type: DataTypes.STRING,
-      set(val: string) {
+      set(this: User, val: string) {
         const salt = bcrypt.genSaltSync(10)
         const hashPwd = bcrypt.hashSync(val, salt)
-        // @ts-ignore
         this.setDataValue('password', hashPwd)
       }
     },

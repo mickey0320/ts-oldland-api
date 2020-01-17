@@ -16,7 +16,14 @@ const sequelize = new Sequelize(dbname, user, password, {
     // 软删除，生成deleted_at字段
     paranoid: true,
     // 表字段采用下划线的命名方式
-    underscored: true
+    underscored: true,
+    scopes: {
+      dh: {
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'deletedAt']
+        }
+      }
+    }
     // createdAt: 'create_at',
     // updatedAt: 'update_at',
     // deletedAt: 'deleted_at',
@@ -25,4 +32,4 @@ const sequelize = new Sequelize(dbname, user, password, {
 
 sequelize.sync({})
 
-export { sequelize }
+export default sequelize

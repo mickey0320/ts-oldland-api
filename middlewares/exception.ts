@@ -19,17 +19,17 @@ async function catchError(ctx: Context, next: Next) {
       ctx.body = {
         message: error.message,
         error_code: error.errorCode,
-        request_url: url,
-        status: error.httpStatus
+        request_url: url
       }
+      ctx.status = error.httpStatus
     } else {
       error.message = '服务器发生异常了'
       ctx.body = {
         message: error.message,
         error_code: 10000,
-        request_url: url,
-        status: 500
+        request_url: url
       }
+      ctx.status = 500
     }
   }
 }

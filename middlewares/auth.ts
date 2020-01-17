@@ -37,7 +37,6 @@ class Auth {
       if (decode.scope < this.level) {
         throw new Forbidden('权限不足')
       }
-
       ctx.auth = {
         uid: decode.uid,
         scope: decode.scope

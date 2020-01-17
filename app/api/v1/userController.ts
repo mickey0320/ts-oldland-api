@@ -1,7 +1,7 @@
 import { Context } from 'koa'
 
 import User from '../../models/user'
-import success from '../../lib/helper'
+import { success } from '../../lib/helper'
 
 class UserController {
   public async register(ctx: Context) {

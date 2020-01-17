@@ -1,7 +1,7 @@
 import { Context } from 'koa'
 
 import { LoginType } from '../../lib/emnu'
-import userService from '../../../app/services/user'
+import UserService from '../../../app/services/user'
 import wxService from '../../services/wx'
 
 class TokenController {
@@ -11,7 +11,7 @@ class TokenController {
     let token = ''
     switch (loginType) {
       case LoginType.Email:
-        token = await userService.generateTokenByEmail(account, secret)
+        token = await UserService.generateTokenByEmail(account, secret)
         break
       case LoginType.MiniProgram:
         token = await wxService.codeToToken(account)

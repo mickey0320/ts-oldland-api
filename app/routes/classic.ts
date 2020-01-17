@@ -9,5 +9,7 @@ const router = new KoaRouter()
 router.prefix('/v1/classic')
 
 router.get('/latest', new Auth(UserLevel.User).m, classicController.getLatest)
+router.get('/:index/next', new Auth(UserLevel.User).m, classicController.getNext)
+router.get('/:index/previous', new Auth(UserLevel.User).m, classicController.getPrevious)
 
 export default router

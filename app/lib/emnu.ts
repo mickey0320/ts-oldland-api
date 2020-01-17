@@ -9,4 +9,10 @@ enum UserLevel {
   Admin = 4
 }
 
-export { LoginType, UserLevel }
+enum ClassicType {
+  Movie = 100,
+  Music = 200,
+  Sentence = 300
+}
+
+export { LoginType, UserLevel, ClassicType }

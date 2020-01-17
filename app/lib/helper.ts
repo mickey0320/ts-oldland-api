@@ -4,4 +4,4 @@ function success(): never {
   throw new Success()
 }
 
-export default success
+export { success }

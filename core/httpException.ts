@@ -50,5 +50,17 @@ class Forbidden extends HttpBaseException {
   }
 }
 
+class LikeError extends HttpBaseException {
+  public constructor(message = '您已经点过赞了', errorCode = 60000) {
+    super(message, errorCode, 400)
+  }
+}
+
+class DislikeError extends HttpBaseException {
+  public constructor(message = '您已经取消过过赞了', errorCode = 60002) {
+    super(message, errorCode, 400)
+  }
+}
+
 export default HttpBaseException
-export { ParameterException, Success, NotFound, AuthFail, Forbidden }
+export { ParameterException, Success, NotFound, AuthFail, Forbidden, LikeError, DislikeError }
