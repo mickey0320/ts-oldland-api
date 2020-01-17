@@ -9,7 +9,7 @@ import { Forbidden } from '../core/httpException'
 class Auth {
   public level: UserLevel
 
-  public constructor(level: UserLevel) {
+  public constructor(level = UserLevel.User) {
     this.level = level
   }
   public get m() {

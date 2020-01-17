@@ -14,7 +14,7 @@ class Favor extends Model {
         throw new LikeError()
       }
       await this.create({ artId, uid, type }, { transaction: t })
-      const art = await Art.getData(artId, type)
+      const art = await Art.getData(artId, type, false)
       if (!art) {
         throw new NotFound('记录不存在')
       }
@@ -33,7 +33,7 @@ class Favor extends Model {
         force: true,
         transaction: t
       })
-      const art = await Art.getData(artId, type)
+      const art = await Art.getData(artId, type, false)
       if (!art) {
         throw new NotFound('记录不存在')
       }

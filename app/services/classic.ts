@@ -50,6 +50,20 @@ class ClassicService {
     classic!.setDataValue('like_status', likeStatus)
     return classic
   }
+
+  public static async getFavorInfo(artId: number, type: number, uid: number) {
+    const art = await Art.getData(artId, type, false)
+    if (!art) {
+      throw new NotFound()
+    }
+    const likeStatus = await FavorService.getLikeStatus(artId, uid, type)
+
+    return {
+      id: artId,
+      fav_nums: art.favNums,
+      like_status: likeStatus
+    }
+  }
 }
 
 export default ClassicService

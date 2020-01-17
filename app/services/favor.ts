@@ -8,11 +8,11 @@ class FavorService {
     return Favor.dislike(artId, uid, type)
   }
   public static async getLikeStatus(artId: number, uid: number, type: number) {
-    const favor = Favor.findOne({
+    const favor = await Favor.findOne({
       where: { artId, uid, type }
     })
 
-    return favor ? true : false
+    return favor ? 1 : 0
   }
 }
 

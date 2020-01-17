@@ -20,6 +20,18 @@ class ClassicController {
 
     ctx.body = classic
   }
+  public async getFavorInfo(ctx: Context) {
+    const { type, id: artId } = ctx.params
+    const favorInfo = await ClassicService.getFavorInfo(
+      Number(artId),
+      Number(type),
+      Number(ctx.auth.uid)
+    )
+    console.log(favorInfo)
+    ctx.body = favorInfo
+  }
+  public async getMyFavor(ctx: Context) {}
+  public async getDetail(ctx: Context) {}
 }
 
 export default new ClassicController()
