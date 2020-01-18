@@ -12,7 +12,8 @@ enum UserLevel {
 enum ClassicType {
   Movie = 100,
   Music = 200,
-  Sentence = 300
+  Sentence = 300,
+  Book = 400
 }
 
 export { LoginType, UserLevel, ClassicType }

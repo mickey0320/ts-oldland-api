@@ -18,7 +18,7 @@ const sequelize = new Sequelize(dbname, user, password, {
     // 表字段采用下划线的命名方式
     underscored: true,
     scopes: {
-      dh: {
+      bh: {
         attributes: {
           exclude: ['createdAt', 'updatedAt', 'deletedAt']
         }
