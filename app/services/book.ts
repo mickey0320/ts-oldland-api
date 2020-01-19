@@ -6,6 +6,7 @@ import config from '../../config/config'
 import axios from 'axios'
 import { ClassicType } from '../lib/emnu'
 import FavorService from './favor'
+import BookCommnet from '../models/bookComment'
 
 class BookService {
   public static async getHotBooks() {
@@ -35,7 +36,6 @@ class BookService {
 
   public static async search(q: string, start = 0, count = 10) {
     const url = util.format(config.yushu.keywordUrl, q, count, start, 1)
-    console.log(url)
     const ret = await axios.get(encodeURI(url))
 
     return ret.data
@@ -58,6 +58,22 @@ class BookService {
     return {
       favNums,
       likeStatus: likeStatus ? 1 : 0
+    }
+  }
+
+  public static async postComment(bookId: number, content: string) {
+    console.log(bookId, content)
+    const comment = await BookCommnet.findOne({
+      where: { bookId, content }
+    })
+    if (comment) {
+      await comment.increment('nums', { by: 1 })
+    } else {
+      await BookCommnet.create({
+        bookId,
+        content,
+        nums: 1
+      })
     }
   }
 }

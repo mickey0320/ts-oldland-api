@@ -19,6 +19,7 @@ class Favor extends Model {
       if (!art) {
         throw new NotFound('记录不存在')
       }
+      // @ts-ignore
       await art.increment('favNums', { by: 1, transaction: t })
     })
   }
@@ -38,6 +39,7 @@ class Favor extends Model {
       if (!art) {
         throw new NotFound('记录不存在')
       }
+      // @ts-ignore
       await art.decrement('favNums', { by: 1, transaction: t })
     })
   }

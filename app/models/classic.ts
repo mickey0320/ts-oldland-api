@@ -24,6 +24,7 @@ const classicFields = {
 }
 
 class Movie extends Model {
+  public id!: number
   public title!: string
   public content!: string
   public image!: string
@@ -40,6 +41,7 @@ Movie.init(
 )
 
 class Music extends Model {
+  public id!: number
   public title!: string
   public content!: string
   public image!: string
@@ -61,6 +63,7 @@ Music.init(
 )
 
 class Sentence extends Model {
+  public id!: number
   public title!: string
   public content!: string
   public image!: string

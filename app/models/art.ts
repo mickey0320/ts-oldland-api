@@ -23,7 +23,7 @@ class Art {
         art = await Sentence.scope(scope).findOne(condition)
         break
       case ClassicType.Book:
-        // art = await Book.scope(scope).findOne({ where: { id: artId } })
+        art = await Book.scope(scope).findOne({ where: { id: artId } })
         // if (!art) {
         //   art = await Book.create({
         //     id: artId

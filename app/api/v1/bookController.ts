@@ -1,6 +1,7 @@
 import { Context } from 'koa'
 
 import BookService from '../../services/book'
+import { success } from '../../lib/helper'
 
 class BookController {
   public async getHotBooks(ctx: Context) {
@@ -28,10 +29,17 @@ class BookController {
   }
   public async getBookFavorInfo(ctx: Context) {
     const uid = Number(ctx.auth.uid)
-    const bookdId = ctx.params.book_id
+    const bookdId = Number(ctx.params.book_id)
     const favorInfo = await BookService.getBookFavorInfo(uid, bookdId)
 
     ctx.body = favorInfo
+  }
+
+  public async postComment(ctx: Context) {
+    const { book_id: bookId, content } = ctx.request.body
+    await BookService.postComment(Number(bookId), content)
+
+    success()
   }
 }
 

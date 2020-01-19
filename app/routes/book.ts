@@ -12,5 +12,7 @@ router.get('/:id/detail', new Auth().m, bookController.getDetail)
 router.get('/search', new Auth().m, bookController.search)
 router.get('/favor/count', new Auth().m, bookController.getFavorCount)
 router.get('/:book_id/favor', new Auth().m, bookController.getBookFavorInfo)
+router.post('/add/short_comment', new Auth().m, bookController.postComment)
+// router.get('/:book_id/short_comment', new Auth().m, bookController.getBookFavorInfo)
 
 export default router
