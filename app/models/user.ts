@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes } from 'sequelize'
+import { Model, DataTypes } from 'sequelize'
 import bcrypt from 'bcryptjs'
 
 import sequelize from '../../core/db'

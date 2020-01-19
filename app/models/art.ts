@@ -1,9 +1,10 @@
 import { ClassicType } from '../lib/emnu'
 import { Movie, Music, Sentence } from './classic'
+import Book from './book'
 
 class Art {
   public static async getData(artId: number, type: ClassicType, useScope = true) {
-    let classic
+    let art
     const condition = {
       where: {
         id: Number(artId),
@@ -13,16 +14,24 @@ class Art {
     const scope = useScope ? 'bh' : ''
     switch (type) {
       case ClassicType.Movie:
-        classic = await Movie.scope(scope).findOne(condition)
+        art = await Movie.scope(scope).findOne(condition)
         break
       case ClassicType.Music:
-        classic = await Music.scope(scope).findOne(condition)
+        art = await Music.scope(scope).findOne(condition)
         break
       case ClassicType.Sentence:
-        classic = await Sentence.scope(scope).findOne(condition)
+        art = await Sentence.scope(scope).findOne(condition)
+        break
+      case ClassicType.Book:
+        // art = await Book.scope(scope).findOne({ where: { id: artId } })
+        // if (!art) {
+        //   art = await Book.create({
+        //     id: artId
+        //   })
+        // }
         break
     }
-    return classic
+    return art
   }
 }
 

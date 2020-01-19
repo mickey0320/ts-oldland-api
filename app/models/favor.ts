@@ -1,8 +1,9 @@
-import { Model, DataTypes } from 'sequelize'
+import { Model, DataTypes, Sequelize, Op } from 'sequelize'
 
 import db from '../../core/db'
 import Art from './art'
 import { LikeError, DislikeError, NotFound } from '../../core/httpException'
+import { ClassicType } from '../lib/emnu'
 
 class Favor extends Model {
   public static async like(artId: number, uid: number, type: number) {
@@ -39,6 +40,15 @@ class Favor extends Model {
       }
       await art.decrement('favNums', { by: 1, transaction: t })
     })
+  }
+  public static async getBookFavorNums(bookIds: Array<number>) {
+    const booksFavorNums = await Favor.findAll({
+      where: { type: ClassicType.Book, artId: { [Op.in]: bookIds } },
+      group: ['artId'],
+      attributes: ['artId', [Sequelize.fn('count', '*'), 'count']]
+    })
+
+    return booksFavorNums
   }
   public id!: number
   public uid!: number
