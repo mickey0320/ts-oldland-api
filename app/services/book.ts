@@ -62,7 +62,6 @@ class BookService {
   }
 
   public static async postComment(bookId: number, content: string) {
-    console.log(bookId, content)
     const comment = await BookCommnet.findOne({
       where: { bookId, content }
     })
@@ -75,6 +74,13 @@ class BookService {
         nums: 1
       })
     }
+  }
+  public static async getComments(bookId: number) {
+    const comments = await BookCommnet.findAll({
+      where: { bookId }
+    })
+
+    return comments
   }
 }
 

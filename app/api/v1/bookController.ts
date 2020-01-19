@@ -41,6 +41,28 @@ class BookController {
 
     success()
   }
+
+  public async getBookComments(ctx: Context) {
+    const bookId = ctx.params.book_id
+    const comments = await BookService.getComments(bookId)
+
+    ctx.body = {
+      comments,
+      book_id: bookId
+    }
+  }
+  public async getHotKeywords(ctx: Context) {
+    ctx.body = {
+      hot: [
+        'Fluent Python',
+        'Python',
+        '小程序Java核心编程',
+        '慕课网7七月',
+        '微信小程序开发入门与实践',
+        'C++'
+      ]
+    }
+  }
 }
 
 export default new BookController()
