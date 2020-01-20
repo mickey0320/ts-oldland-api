@@ -1,8 +1,8 @@
 import { Context } from 'koa'
 
 import { LoginType } from '../../lib/emnu'
-import UserService from '../../../app/services/user'
-import wxService from '../../services/wx'
+import UserService from '../../../app/service/user'
+import wxService from '../../service/wx'
 
 class TokenController {
   public verify = async (ctx: Context) => {
@@ -10,11 +10,11 @@ class TokenController {
     const loginType = parseInt(type, 10)
     let token = ''
     switch (loginType) {
-      case LoginType.Email:
-        token = await UserService.generateTokenByEmail(account, secret)
-        break
       case LoginType.MiniProgram:
         token = await wxService.codeToToken(account)
+        break
+      case LoginType.Email:
+        token = await UserService.generateTokenByEmail(account, secret)
         break
     }
     ctx.body = {

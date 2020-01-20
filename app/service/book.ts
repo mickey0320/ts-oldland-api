@@ -1,28 +1,28 @@
 import util from 'util'
 
-import HotBook from '../models/hotBook'
-import Favor from '../models/favor'
+import HotBookModel from '../model/hotBook'
+import FavorModel from '../model/favor'
+import BookCommnetModel from '../model/bookComment'
 import config from '../../config/config'
 import axios from 'axios'
 import { ClassicType } from '../lib/emnu'
 import FavorService from './favor'
-import BookCommnet from '../models/bookComment'
 
 class BookService {
   public static async getHotBooks() {
-    const hotBooks = await HotBook.findAll()
+    const hotBooks = await HotBookModel.findAll()
     const bookIds = hotBooks.map((book) => book.id)
-    const bookFavorNums = await Favor.getBookFavorNums(bookIds)
+    const bookFavorNums = await FavorService.getBookFavorNums(bookIds)
+    const bookList = hotBooks.map((book) => book.get())
 
-    hotBooks.forEach((book) => {
+    bookList.forEach((book: any) => {
       const bookFavorNum = bookFavorNums.find((item) => book.id === item.artId)
       let count = 0
       if (bookFavorNum) {
-        // @ts-ignore
-        count = bookFavorNum.getDataValue('count')
+        const bookFavorNumPlain: any = bookFavorNum!.get()
+        count = bookFavorNumPlain.count
       }
-      // @ts-ignore
-      book.setDataValue('favNums', count)
+      book.favNums = count
     })
 
     return hotBooks
@@ -42,7 +42,7 @@ class BookService {
   }
 
   public static async getFavorCount(uid: number) {
-    const count = await Favor.count({
+    const count = await FavorModel.count({
       where: { uid, type: ClassicType.Book }
     })
 
@@ -50,7 +50,7 @@ class BookService {
   }
 
   public static async getBookFavorInfo(uid: number, bookId: number) {
-    const favNums = await Favor.count({
+    const favNums = await FavorModel.count({
       where: { artId: bookId, type: ClassicType.Book }
     })
     const likeStatus = FavorService.getLikeStatus(bookId, uid, ClassicType.Book)
@@ -62,13 +62,13 @@ class BookService {
   }
 
   public static async postComment(bookId: number, content: string) {
-    const comment = await BookCommnet.findOne({
+    const comment = await BookCommnetModel.findOne({
       where: { bookId, content }
     })
     if (comment) {
       await comment.increment('nums', { by: 1 })
     } else {
-      await BookCommnet.create({
+      await BookCommnetModel.create({
         bookId,
         content,
         nums: 1
@@ -76,7 +76,7 @@ class BookService {
     }
   }
   public static async getComments(bookId: number) {
-    const comments = await BookCommnet.findAll({
+    const comments = await BookCommnetModel.findAll({
       where: { bookId }
     })
 

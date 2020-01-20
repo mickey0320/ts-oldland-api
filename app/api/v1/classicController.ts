@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 
-import ClassicService from '../../services/classic'
+import ClassicService from '../../service/art'
 import { success } from '../../lib/helper'
 
 class ClassicController {

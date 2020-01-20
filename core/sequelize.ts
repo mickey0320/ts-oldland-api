@@ -1,15 +1,16 @@
-import { Sequelize } from 'sequelize'
+import path from 'path'
+
+import { Sequelize } from 'sequelize-typescript'
 
 import config from '../config/config'
 
 const { dbname, host, port, user, password } = config.database
-
 const sequelize = new Sequelize(dbname, user, password, {
   dialect: 'mysql',
   host,
   port,
   logging: true,
-  timezone: '+8:00',
+  models: [path.join(__dirname, '../app/model/**/*ts')],
   define: {
     // 自动生成created_at,updated_at等字段
     timestamps: true,
@@ -24,12 +25,7 @@ const sequelize = new Sequelize(dbname, user, password, {
         }
       }
     }
-    // createdAt: 'create_at',
-    // updatedAt: 'update_at',
-    // deletedAt: 'deleted_at',
   }
 })
-
-sequelize.sync({})
 
 export default sequelize

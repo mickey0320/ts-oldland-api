@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 
-import BookService from '../../services/book'
+import BookService from '../../service/book'
 import { success } from '../../lib/helper'
 
 class BookController {

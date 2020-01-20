@@ -1,69 +1,73 @@
-import Flow from '../models/flow'
+import FlowModel from '../model/flow'
+import FavorModel from '../model/favor'
+import MovieModel from '../model/movie'
+import MusicModel from '../model/music'
+import SentenceModel from '../model/sentence'
+import BookModel from '../model/book'
 
-import Art from '../models/art'
 import FavorService from './favor'
 import { NotFound } from '../../core/httpException'
 import { Op } from 'sequelize'
 import { ClassicType } from '../lib/emnu'
-import { Movie, Music, Sentence } from '../models/classic'
-import Favor from '../models/favor'
 
 interface ClassicTypeIds {
   [key: number]: Array<number>
 }
 
-class ClassicService {
+class Art {
   public static async getlatest(uid: number) {
-    const flow = await Flow.findOne({
+    const flow = await FlowModel.findOne({
       order: [['index', 'desc']]
     })
     if (!flow) {
-      throw new NotFound()
+      throw new NotFound('没有最新一期')
     }
 
-    const classic = await Art.getData(flow.artId, flow.type)
+    const classic = await this.getData(flow.artId, flow.type)
     const likeStatus = await FavorService.getLikeStatus(uid, flow.artId, flow.type)
-    // @ts-ignore
-    classic!.setDataValue('index', flow!.index)
-    // @ts-ignore
-    classic!.setDataValue('like_status', likeStatus)
 
-    return classic
+    return {
+      index: flow.index,
+      likeStatus,
+      ...classic!.get()
+    }
   }
   public static async getNext(index: number, uid: number) {
-    const flow = await Flow.findOne({
+    const flow = await FlowModel.findOne({
       where: { index: index + 1 }
     })
     if (!flow) {
       throw new NotFound('没有下一期了')
     }
-    const classic = await Art.getData(flow.artId, flow.type)
+    const classic = await this.getData(flow.artId, flow.type)
     const likeStatus = await FavorService.getLikeStatus(uid, flow.artId, flow.type)
-    // @ts-ignore
-    classic!.setDataValue('index', flow!.index)
-    // @ts-ignore
-    classic!.setDataValue('like_status', likeStatus)
-    return classic
+
+    return {
+      index: flow.index,
+      likeStatus,
+      ...classic!.get()
+    }
   }
 
   public static async getPrevious(index: number, uid: number) {
-    const flow = await Flow.findOne({
+    const flow = await FlowModel.findOne({
       where: { index: index - 1 }
     })
     if (!flow) {
       throw new NotFound('已经是最新一期')
     }
-    const classic = await Art.getData(flow.artId, flow.type)
-    const likeStatus = await FavorService.getLikeStatus(uid, flow!.artId, flow!.type)
-    // @ts-ignore
-    classic!.setDataValue('index', flow!.index)
-    // @ts-ignore
-    classic!.setDataValue('like_status', likeStatus)
-    return classic
+    const classic = await this.getData(flow.artId, flow.type)
+    const likeStatus = await FavorService.getLikeStatus(uid, flow.artId, flow.type)
+
+    return {
+      index: flow.index,
+      likeStatus,
+      ...classic!.get()
+    }
   }
 
   public static async getFavorInfo(artId: number, type: number, uid: number) {
-    const art = await Art.getData(artId, type, false)
+    const art = await this.getData(artId, type, false)
     if (!art) {
       throw new NotFound()
     }
@@ -77,7 +81,7 @@ class ClassicService {
   }
 
   public static async getMyFavor(uid: number) {
-    const favors = await Favor.findAll({
+    const favors = await FavorModel.findAll({
       where: { uid, type: { [Op.not]: ClassicType.Book } }
     })
     const classicTypeIdsMap: ClassicTypeIds = {
@@ -102,18 +106,48 @@ class ClassicService {
   }
 
   public static async getDetail(uid: number, type: number, id: number) {
-    const classic = await Art.getData(id, type)
+    const classic = await this.getData(id, type)
     if (!classic) {
       throw new NotFound()
     }
     const likeStatus = await FavorService.getLikeStatus(uid, id, type)
 
-    // @ts-ignore
-    classic.setDataValue('like_status', likeStatus ? 1 : 0)
-
-    return classic
+    return {
+      likeStatus,
+      ...classic.get()
+    }
   }
 
+  public static async getData(artId: number, type: ClassicType, useScope = true) {
+    let art
+    const condition = {
+      where: {
+        id: Number(artId),
+        type: Number(type)
+      }
+    }
+    const scope = useScope ? 'bh' : ''
+    switch (type) {
+      case ClassicType.Movie:
+        art = await MovieModel.scope(scope).findOne(condition)
+        break
+      case ClassicType.Music:
+        art = await MusicModel.scope(scope).findOne(condition)
+        break
+      case ClassicType.Sentence:
+        art = await SentenceModel.scope(scope).findOne(condition)
+        break
+      case ClassicType.Book:
+        art = await BookModel.scope(scope).findOne({ where: { id: artId } })
+        if (!art) {
+          art = await BookModel.create({
+            id: artId
+          })
+        }
+        break
+    }
+    return art
+  }
   private static async patchClassic(type: ClassicType, ids: Array<number>) {
     const condition = {
       where: {
@@ -124,13 +158,13 @@ class ClassicService {
     let classics
     switch (type) {
       case ClassicType.Movie:
-        classics = await Movie.scope(scope).findAll(condition)
+        classics = await MovieModel.scope(scope).findAll(condition)
         break
       case ClassicType.Music:
-        classics = await Music.scope(scope).findAll(condition)
+        classics = await MusicModel.scope(scope).findAll(condition)
         break
       case ClassicType.Sentence:
-        classics = await Sentence.scope(scope).findAll(condition)
+        classics = await SentenceModel.scope(scope).findAll(condition)
         break
     }
 
@@ -138,4 +172,4 @@ class ClassicService {
   }
 }
 
-export default ClassicService
+export default Art

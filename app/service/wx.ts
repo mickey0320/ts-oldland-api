@@ -2,15 +2,19 @@ import util from 'util'
 
 import axios from 'axios'
 
-import User from '../models/user'
+import User from '../model/user'
 import config from '../../config/config'
 import { generateToken } from '../../core/util'
 import { AuthFail } from '../../core/httpException'
 
-class WxService {
+class Wx {
   public static async codeToToken(code: string) {
     const openId = await this.getOpenId(code)
-    let user = await User.getUserByOpenId(openId)
+    let user = await User.findOne({
+      where: {
+        openId
+      }
+    })
     if (!user) {
       user = await User.create(openId)
     }
@@ -28,4 +32,4 @@ class WxService {
   }
 }
 
-export default WxService
+export default Wx
