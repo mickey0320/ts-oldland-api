@@ -1,6 +1,7 @@
 import { Context } from 'koa'
 
 import ClassicService from '../../services/classic'
+import { success } from '../../lib/helper'
 
 class ClassicController {
   public async getLatest(ctx: Context) {
@@ -35,7 +36,12 @@ class ClassicController {
 
     ctx.body = favors
   }
-  public async getDetail(ctx: Context) { }
+  public async getDetail(ctx: Context) {
+    const { type, id } = ctx.params
+    const detail = await ClassicService.getDetail(Number(ctx.auth.uid), Number(type), Number(id))
+
+    ctx.body = detail
+  }
 }
 
 export default new ClassicController()

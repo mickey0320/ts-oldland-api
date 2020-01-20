@@ -17,7 +17,7 @@ router.get('/:index/previous', new Auth().m, classicController.getPrevious)
 router.get('/:type/:id/favor', new Auth().m, classicController.getFavorInfo)
 // 我喜欢的期刊
 router.get('/favor', new Auth().m, classicController.getMyFavor)
-// 期刊详情
+// 期刊某一期的详情
 router.get('/:type/:id', new Auth().m, classicController.getDetail)
 
 export default router

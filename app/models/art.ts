@@ -24,11 +24,11 @@ class Art {
         break
       case ClassicType.Book:
         art = await Book.scope(scope).findOne({ where: { id: artId } })
-        // if (!art) {
-        //   art = await Book.create({
-        //     id: artId
-        //   })
-        // }
+        if (!art) {
+          art = await Book.create({
+            id: artId
+          })
+        }
         break
     }
     return art

@@ -17,9 +17,12 @@ class ClassicService {
     const flow = await Flow.findOne({
       order: [['index', 'desc']]
     })
+    if (!flow) {
+      throw new NotFound()
+    }
 
-    const classic = await Art.getData(flow!.artId, flow!.type)
-    const likeStatus = await FavorService.getLikeStatus(flow!.artId, uid, flow!.type)
+    const classic = await Art.getData(flow.artId, flow.type)
+    const likeStatus = await FavorService.getLikeStatus(uid, flow.artId, flow.type)
     // @ts-ignore
     classic!.setDataValue('index', flow!.index)
     // @ts-ignore
@@ -35,7 +38,7 @@ class ClassicService {
       throw new NotFound('没有下一期了')
     }
     const classic = await Art.getData(flow.artId, flow.type)
-    const likeStatus = await FavorService.getLikeStatus(flow!.artId, uid, flow!.type)
+    const likeStatus = await FavorService.getLikeStatus(uid, flow.artId, flow.type)
     // @ts-ignore
     classic!.setDataValue('index', flow!.index)
     // @ts-ignore
@@ -51,7 +54,7 @@ class ClassicService {
       throw new NotFound('已经是最新一期')
     }
     const classic = await Art.getData(flow.artId, flow.type)
-    const likeStatus = await FavorService.getLikeStatus(flow!.artId, uid, flow!.type)
+    const likeStatus = await FavorService.getLikeStatus(uid, flow!.artId, flow!.type)
     // @ts-ignore
     classic!.setDataValue('index', flow!.index)
     // @ts-ignore
@@ -64,7 +67,7 @@ class ClassicService {
     if (!art) {
       throw new NotFound()
     }
-    const likeStatus = await FavorService.getLikeStatus(artId, uid, type)
+    const likeStatus = await FavorService.getLikeStatus(uid, artId, type)
 
     return {
       id: artId,
@@ -96,6 +99,19 @@ class ClassicService {
     }
 
     return myFavors
+  }
+
+  public static async getDetail(uid: number, type: number, id: number) {
+    const classic = await Art.getData(id, type)
+    if (!classic) {
+      throw new NotFound()
+    }
+    const likeStatus = await FavorService.getLikeStatus(uid, id, type)
+
+    // @ts-ignore
+    classic.setDataValue('like_status', likeStatus ? 1 : 0)
+
+    return classic
   }
 
   private static async patchClassic(type: ClassicType, ids: Array<number>) {
