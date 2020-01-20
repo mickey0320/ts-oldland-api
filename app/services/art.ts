@@ -1,9 +1,9 @@
-import FlowModel from '../model/flow'
-import FavorModel from '../model/favor'
-import MovieModel from '../model/movie'
-import MusicModel from '../model/music'
-import SentenceModel from '../model/sentence'
-import BookModel from '../model/book'
+import FlowModel from '../models/flow'
+import FavorModel from '../models/favor'
+import MovieModel from '../models/movie'
+import MusicModel from '../models/music'
+import SentenceModel from '../models/sentence'
+import BookModel from '../models/book'
 
 import FavorService from './favor'
 import { NotFound } from '../../core/httpException'
@@ -23,12 +23,12 @@ class Art {
       throw new NotFound('没有最新一期')
     }
 
-    const classic = await this.getData(flow.artId, flow.type)
-    const likeStatus = await FavorService.getLikeStatus(uid, flow.artId, flow.type)
+    const classic = await this.getData(flow.art_id, flow.type)
+    const likeStatus = await FavorService.getLikeStatus(uid, flow.art_id, flow.type)
 
     return {
       index: flow.index,
-      likeStatus,
+      like_status: likeStatus,
       ...classic!.get()
     }
   }
@@ -39,12 +39,12 @@ class Art {
     if (!flow) {
       throw new NotFound('没有下一期了')
     }
-    const classic = await this.getData(flow.artId, flow.type)
-    const likeStatus = await FavorService.getLikeStatus(uid, flow.artId, flow.type)
+    const classic = await this.getData(flow.art_id, flow.type)
+    const likeStatus = await FavorService.getLikeStatus(uid, flow.art_id, flow.type)
 
     return {
       index: flow.index,
-      likeStatus,
+      like_status: likeStatus,
       ...classic!.get()
     }
   }
@@ -56,12 +56,12 @@ class Art {
     if (!flow) {
       throw new NotFound('已经是最新一期')
     }
-    const classic = await this.getData(flow.artId, flow.type)
-    const likeStatus = await FavorService.getLikeStatus(uid, flow.artId, flow.type)
+    const classic = await this.getData(flow.art_id, flow.type)
+    const likeStatus = await FavorService.getLikeStatus(uid, flow.art_id, flow.type)
 
     return {
       index: flow.index,
-      likeStatus,
+      like_status: likeStatus,
       ...classic!.get()
     }
   }
@@ -75,7 +75,7 @@ class Art {
 
     return {
       id: artId,
-      fav_nums: art.favNums,
+      fav_nums: art.fav_nums,
       like_status: likeStatus
     }
   }
@@ -90,7 +90,7 @@ class Art {
       [ClassicType.Sentence]: []
     }
     for (let favor of favors) {
-      classicTypeIdsMap[favor.type].push(favor.artId)
+      classicTypeIdsMap[favor.type].push(favor.art_id)
     }
 
     const myFavors = []
@@ -113,7 +113,7 @@ class Art {
     const likeStatus = await FavorService.getLikeStatus(uid, id, type)
 
     return {
-      likeStatus,
+      like_status: likeStatus,
       ...classic.get()
     }
   }

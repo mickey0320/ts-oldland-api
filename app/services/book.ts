@@ -1,8 +1,8 @@
 import util from 'util'
 
-import HotBookModel from '../model/hotBook'
-import FavorModel from '../model/favor'
-import BookCommnetModel from '../model/bookComment'
+import HotBookModel from '../models/hotBook'
+import FavorModel from '../models/favor'
+import BookCommnetModel from '../models/bookComment'
 import config from '../../config/config'
 import axios from 'axios'
 import { ClassicType } from '../lib/emnu'
@@ -16,13 +16,13 @@ class BookService {
     const bookList = hotBooks.map((book) => book.get())
 
     bookList.forEach((book: any) => {
-      const bookFavorNum = bookFavorNums.find((item) => book.id === item.artId)
+      const bookFavorNum = bookFavorNums.find((item) => book.id === item.art_id)
       let count = 0
       if (bookFavorNum) {
         const bookFavorNumPlain: any = bookFavorNum!.get()
         count = bookFavorNumPlain.count
       }
-      book.favNums = count
+      book.fav_nums = count
     })
 
     return hotBooks
@@ -51,19 +51,19 @@ class BookService {
 
   public static async getBookFavorInfo(uid: number, bookId: number) {
     const favNums = await FavorModel.count({
-      where: { artId: bookId, type: ClassicType.Book }
+      where: { art_id: bookId, type: ClassicType.Book }
     })
     const likeStatus = FavorService.getLikeStatus(bookId, uid, ClassicType.Book)
 
     return {
-      favNums,
-      likeStatus: likeStatus ? 1 : 0
+      fav_nums: favNums,
+      like_status: likeStatus ? 1 : 0
     }
   }
 
   public static async postComment(bookId: number, content: string) {
     const comment = await BookCommnetModel.findOne({
-      where: { bookId, content }
+      where: { book_id: bookId, content }
     })
     if (comment) {
       await comment.increment('nums', { by: 1 })
@@ -77,7 +77,7 @@ class BookService {
   }
   public static async getComments(bookId: number) {
     const comments = await BookCommnetModel.findAll({
-      where: { bookId }
+      where: { book_id: bookId }
     })
 
     return comments

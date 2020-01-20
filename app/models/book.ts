@@ -6,7 +6,7 @@ class Book extends Model<Book> {
   @Column
   public id!: number
   @Column
-  public favNums!: number
+  public fav_nums!: number
 }
 
 export default Book

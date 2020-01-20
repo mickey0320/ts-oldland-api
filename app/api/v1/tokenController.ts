@@ -1,8 +1,8 @@
 import { Context } from 'koa'
 
 import { LoginType } from '../../lib/emnu'
-import UserService from '../../../app/service/user'
-import wxService from '../../service/wx'
+import UserService from '../../services/user'
+import wxService from '../../services/wx'
 
 class TokenController {
   public verify = async (ctx: Context) => {

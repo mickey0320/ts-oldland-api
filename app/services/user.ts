@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 
-import UserModel from '../model/user'
+import UserModel from '../models/user'
 import { generateToken } from '../../core/util'
 import { AuthFail, ParameterException } from '../../core/httpException'
 

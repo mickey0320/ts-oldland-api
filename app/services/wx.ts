@@ -2,7 +2,7 @@ import util from 'util'
 
 import axios from 'axios'
 
-import User from '../model/user'
+import User from '../models/user'
 import config from '../../config/config'
 import { generateToken } from '../../core/util'
 import { AuthFail } from '../../core/httpException'

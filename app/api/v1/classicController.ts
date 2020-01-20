@@ -1,7 +1,6 @@
 import { Context } from 'koa'
 
-import ClassicService from '../../service/art'
-import { success } from '../../lib/helper'
+import ClassicService from '../../services/art'
 
 class ClassicController {
   public async getLatest(ctx: Context) {

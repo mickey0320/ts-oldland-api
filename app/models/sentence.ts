@@ -1,7 +1,7 @@
 import { Table, Column, Model } from 'sequelize-typescript'
 
-@Table({ tableName: 'movie' })
-class Movie extends Model<Movie> {
+@Table({ tableName: 'sentence' })
+class Sentence extends Model<Sentence> {
   @Column
   public title!: string
   @Column
@@ -11,9 +11,9 @@ class Movie extends Model<Movie> {
   @Column
   public pubdate!: string
   @Column
-  public favNums!: number
+  public fav_nums!: number
   @Column
   public type!: string
 }
 
-export default Movie
+export default Sentence

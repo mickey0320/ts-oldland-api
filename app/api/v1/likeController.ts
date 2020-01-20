@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 
-import FavorService from '../../service/favor'
+import FavorService from '../../services/favor'
 import { success } from '../../lib/helper'
 
 class LikeController {

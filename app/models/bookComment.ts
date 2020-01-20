@@ -7,7 +7,7 @@ class BookComment extends Model<BookComment> {
   @Column
   public nums!: number
   @Column
-  public bookId!: number
+  public book_id!: number
 }
 
 export default BookComment

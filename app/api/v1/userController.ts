@@ -1,6 +1,6 @@
 import { Context } from 'koa'
 
-import UserService from '../../service/user'
+import UserService from '../../services/user'
 import { success } from '../../lib/helper'
 
 class UserController {

@@ -5,7 +5,7 @@ class Favor extends Model<Favor> {
   @Column
   public uid!: number
   @Column
-  public artId!: number
+  public art_id!: number
   @Column
   public type!: number
 }
