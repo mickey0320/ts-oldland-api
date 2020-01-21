@@ -3,6 +3,7 @@ import { Context } from 'koa'
 import { LoginType } from '../../lib/emnu'
 import UserService from '../../services/user'
 import wxService from '../../services/wx'
+import { ParameterException } from '../../../core/httpException'
 
 class TokenController {
   public verify = async (ctx: Context) => {
@@ -16,6 +17,8 @@ class TokenController {
       case LoginType.Email:
         token = await UserService.generateTokenByEmail(account, secret)
         break
+      default:
+        throw new ParameterException('type不能为空')
     }
     ctx.body = {
       token

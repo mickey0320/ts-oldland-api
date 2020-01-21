@@ -1,5 +1,7 @@
 import { Table, Column, Model } from 'sequelize-typescript'
 
+import config from '../../config/config'
+
 @Table({ tableName: 'movie' })
 class Movie extends Model<Movie> {
   @Column
@@ -7,7 +9,12 @@ class Movie extends Model<Movie> {
   @Column
   public content!: string
   @Column
-  public image!: string
+  public get image() {
+    return `${config.imageHost.host}${this.getDataValue('image')}`
+  }
+  public set image(val: string) {
+    this.setDataValue('image', val)
+  }
   @Column
   public pubdate!: string
   @Column
