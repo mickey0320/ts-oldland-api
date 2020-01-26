@@ -13,10 +13,11 @@
   ],
   "deploy": {
     "production": {
-      "user": "node",
+      "user": "root",
       "host": [
-        "106.12.202.39:10022"
+        "106.12.202.39"
       ],
+      "port": "10022",
       "ref": "origin/master",
       "repo": "git://github.com/mickey0320/ts-oldland-api.git",
       "path": "/var/www/production",
