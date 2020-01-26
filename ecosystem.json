@@ -1,0 +1,31 @@
+{
+  "apps": [
+    {
+      "name": "API",
+      "script": "app.js",
+      "env": {
+        "COMMON_VARIABLE": "true"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ],
+  "deploy": {
+    "production": {
+      "user": "node",
+      "host": [
+        "106.12.202.39:10022"
+      ],
+      "ref": "origin/master",
+      "repo": "git://github.com/mickey0320/ts-oldland-api.git",
+      "path": "/var/www/production",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "pre-deploy-local": "echo 'This is a local executed command'",
+      "post-deploy": "npm install && npm run build && pm2 startOrRestart ecosystem.json --env production",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
