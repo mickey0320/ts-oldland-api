@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "API",
-      "script": "var/www/production/source/dist/app.js",
+      "script": "dist/app.js",
       "env": {
         "COMMON_VARIABLE": "true"
       },
