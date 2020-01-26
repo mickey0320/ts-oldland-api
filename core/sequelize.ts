@@ -10,7 +10,7 @@ const sequelize = new Sequelize(dbname, user, password, {
   host,
   port,
   logging: true,
-  models: [path.join(__dirname, '../app/models/**/*ts')],
+  models: [path.join(__dirname, '../app/models/**/*')],
   define: {
     // 自动生成created_at,updated_at等字段
     timestamps: true,
