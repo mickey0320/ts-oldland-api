@@ -1,3 +1,5 @@
+const env = process.env.NODE_ENV
+
 export default {
   environment: 'dev',
   database: {
@@ -22,6 +24,6 @@ export default {
     keywordUrl: 'http://t.yushu.im/v2/book/search?q=%s&count=%s&start=%s&summary=%s'
   },
   imageHost: {
-    host: 'http://localhost:8080/'
+    host: env === 'production' ? 'http://106.12.202.39:8080/' : 'http://localhost:8080/'
   }
 }
